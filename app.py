@@ -18,6 +18,11 @@ app.secret_key = '882f224578cf4043d6b440520fe97085'  # AppSecret
 wechat = Wechat(app)
 
 
+@app.route('/hello')
+def hello():
+    return "hello"
+
+
 @app.route('/')
 @oauth(scope='snsapi_userinfo')
 def index():
