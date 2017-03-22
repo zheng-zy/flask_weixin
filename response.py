@@ -13,7 +13,7 @@ from const import *
 msg_type_resp = {}  # 存放对应消息类型处理函数
 
 
-def wechat_response(data):
+def wechat_response():
     timestamp = request.args.get('timestamp', '')
     nonce = request.args.get('nonce', '')
     encrypt_type = request.args.get('encrypt_type', '')
@@ -25,7 +25,7 @@ def wechat_response(data):
     crypto = WeChatCrypto(TOKEN, ENCODING_AES_KEY, APP_ID)
     msg = None
     try:
-        msg = crypto.decrypt_message(data, msg_signature, timestamp, nonce)
+        msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
         logger.debug('decrypted message: {%s}', msg)
     except (InvalidSignatureException, InvalidAppIdException):
         abort(403)
