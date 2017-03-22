@@ -34,6 +34,7 @@ def wechat_response():
     try:
         get_resp_func = msg_type_resp[msg.type]
         response = get_resp_func(msg, crypto, nonce, timestamp)
+        logger.debug('get_resp_func resp: %s', response)
     except KeyError:
         response = 'success'
     return response
