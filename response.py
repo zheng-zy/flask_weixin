@@ -120,14 +120,13 @@ def today_word(msg, crypto, nonce, timestamp):
     c = b - a
     file_path = FOLDER_PATH + os.sep + 'day' + str(c.days) + '.txt'
     content = ''
-    if not os.path.exists(file_path):
-        return 'file is not exist.'
-    with open(file_path, 'r') as txt:
-        while 1:
-            line = txt.readline()
-            if not line:
-                break
-            content += line
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as txt:
+            while 1:
+                line = txt.readline()
+                if not line:
+                    break
+                content += line
     reply = create_reply(content, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
     return response
@@ -139,15 +138,14 @@ def word_practise():
 
 def day_txt(msg, crypto, nonce, timestamp):
     file_path = FOLDER_PATH + os.sep + msg.content + '.txt'
-    if not os.path.exists(file_path):
-        return 'file is not exist.'
     content = ''
-    with open(file_path, 'r') as txt:
-        while 1:
-            line = txt.readline()
-            if not line:
-                break
-            content += line
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as txt:
+            while 1:
+                line = txt.readline()
+                if not line:
+                    break
+                content += line
     reply = create_reply(content, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
     return response
