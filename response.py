@@ -34,6 +34,7 @@ def wechat_response():
 
     try:
         logger.debug('current msg type is: {%s}', msg.type)
+        logger.debug('current msg event is: {%s}', msg.event)
         get_resp_func = msg_type_resp[msg.type]
         if get_resp_func is None:
             logger.error('%s is a unknown msg type.', msg.type)
@@ -58,6 +59,15 @@ def text_resp(msg, crypto, nonce, timestamp):
     reply = create_reply(msg.content, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
     return response
+
+
+# @set_msg_type('event')
+# def event_resp(msg, crypto, nonce, timestamp):
+#     if msg_type_resp.has_key('event'):
+#         pass
+#     else:
+#         msg_type_resp['event'] = {msg.event: subscribe_resp}
+#     pass
 
 
 @set_msg_type('subscribe')
