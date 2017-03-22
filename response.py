@@ -5,6 +5,7 @@
 from flask import request, abort
 from wechatpy import parse_message
 from wechatpy.crypto import WeChatCrypto
+from wechatpy.events import BaseEvent
 from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 from wechatpy.replies import *
 
@@ -33,11 +34,15 @@ def wechat_response():
     msg = parse_message(msg)
 
     try:
-        logger.debug('current msg type is: {%s}', msg.type)
-        logger.debug('current msg event is: {%s}', msg.event)
-        get_resp_func = msg_type_resp[msg.type]
+        logger.debug('current msg type is: {%s}, event is: {%s}', msg.type, msg.event)
+        if isinstance(msg, BaseEvent):
+            get_resp_func = msg_type_resp[msg.type + '_' + msg.event]
+        elif isinstance(msg, BaseMessage):
+            get_resp_func = msg_type_resp[msg.type]
+        else:
+            get_resp_func = None
         if get_resp_func is None:
-            logger.error('%s is a unknown msg type.', msg.type)
+            logger.error('msg type is: {%s}, event is: {%s}', msg.type, msg.event)
         response = get_resp_func(msg, crypto, nonce, timestamp)
     except KeyError:
         response = 'success'
@@ -61,16 +66,7 @@ def text_resp(msg, crypto, nonce, timestamp):
     return response
 
 
-# @set_msg_type('event')
-# def event_resp(msg, crypto, nonce, timestamp):
-#     if msg_type_resp.has_key('event'):
-#         pass
-#     else:
-#         msg_type_resp['event'] = {msg.event: subscribe_resp}
-#     pass
-
-
-@set_msg_type('subscribe')
+@set_msg_type('event_subscribe')
 def subscribe_resp(msg, crypto, nonce, timestamp):
     reply = create_reply(WELCOME_TEXT + COMMAND_TEXT, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
