@@ -25,7 +25,7 @@ def index():
     signature = request.args.get('signature', '')
     timestamp = request.args.get('timestamp', '')
     nonce = request.args.get('nonce', '')
-    logger.info('token: {}', app.config['WECHAT_TOKEN'])
+    logger.info('token: {%s}', app.config['WECHAT_TOKEN'])
     try:
         check_signature(app.config['WECHAT_TOKEN'], signature, timestamp, nonce)
     except InvalidSignatureException:
