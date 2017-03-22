@@ -29,7 +29,7 @@ def wechat_response():
     logger.debug('encrypt_type: {%s}', encrypt_type)
     logger.debug('msg_signature: {%s}', msg_signature)
 
-    logger.info('raw message: {%s}', request.data)
+    logger.debug('raw message: {%s}', request.data)
     crypto = WeChatCrypto(TOKEN, ENCODING_AES_KEY, APP_ID)
     msg = None
     try:
