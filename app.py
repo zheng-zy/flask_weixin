@@ -43,6 +43,7 @@ def wechat():
     logger.debug('encrypt_type: {%s}', encrypt_type)
     logger.debug('msg_signature: {%s}', msg_signature)
     try:
+        logger.debug('token: %s', TOKEN)
         check_signature(TOKEN, signature, timestamp, nonce)
     except InvalidSignatureException:
         logger.error('check_signature error')
