@@ -37,6 +37,7 @@ def wechat_response():
         logger.debug('get_resp_func resp: %s', response)
     except KeyError:
         response = 'success'
+    logger.debug('response: %s', response)
     return response
 
 
@@ -54,5 +55,4 @@ def set_msg_type(msg_type):
 def text_resp(msg, crypto, nonce, timestamp):
     reply = create_reply(msg.content, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
-    logger.debug('response: %s', response)
     return response
