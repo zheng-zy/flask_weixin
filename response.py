@@ -2,6 +2,8 @@
 # coding=utf-8
 # Created by zhezhiyong@163.com on 2017/3/22.
 
+import re
+
 from flask import request, abort
 from wechatpy import parse_message
 from wechatpy.crypto import WeChatCrypto
@@ -62,8 +64,25 @@ def set_msg_type(msg_type):
 
 @set_msg_type('text')
 def text_resp(msg, crypto, nonce, timestamp):
-    reply = create_reply(msg.content, msg)
-    response = crypto.encrypt_message(reply.render(), nonce, timestamp)
+    response = 'success'
+    commands = {
+        u'取消': cancel_command,
+        u'^\?|^？': all_command,
+        u'^1|^今日单词': today_word,
+        u'^2|^单词练习': word_practise,
+        u'^天气|^天氣': get_weather_news,
+
+    }
+    command_match = False
+    for key_word in commands:
+        if re.match(key_word, msg.content):
+            resp_func = commands[key_word]()
+            response = resp_func(msg, crypto, nonce, timestamp)
+            command_match = True
+            break
+    if not command_match:
+        reply = create_reply(msg.content, msg)
+        response = crypto.encrypt_message(reply.render(), nonce, timestamp)
     return response
 
 
@@ -72,3 +91,27 @@ def subscribe_resp(msg, crypto, nonce, timestamp):
     reply = create_reply(WELCOME_TEXT + COMMAND_TEXT, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
     return response
+
+
+def cancel_command():
+    pass
+
+
+def all_command(msg, crypto, nonce, timestamp):
+    reply = create_reply(WELCOME_TEXT + COMMAND_TEXT, msg)
+    response = crypto.encrypt_message(reply.render(), nonce, timestamp)
+    return response
+
+
+def get_weather_news():
+    pass
+
+
+def today_word(msg, crypto, nonce, timestamp):
+    reply = create_reply(WELCOME_TEXT + COMMAND_TEXT, msg)
+    response = crypto.encrypt_message(reply.render(), nonce, timestamp)
+    return response
+
+
+def word_practise():
+    pass
