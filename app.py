@@ -40,13 +40,9 @@ def show():
     return render_template('show.html', urls=urls)
 
 
-# @app.route('/data/<name>')
-# def show(name):
-#     if name is None:
-#         abort(404)
-#
-#     url = texts.url(name)
-#     return render_template('show.html', url=url, name=name)
+@app.route('/')
+def index():
+    return 'hello'
 
 
 @app.route('/wechat', methods=[GET, POST])
