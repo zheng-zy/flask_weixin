@@ -159,7 +159,7 @@ def read_file(file_path, pattern=False):
                 if not pattern:
                     content += line
                 else:
-                    if num / 2 == 0:
+                    if num % 2 == 0:
                         content += line
                 num += 1
     else:
@@ -167,4 +167,5 @@ def read_file(file_path, pattern=False):
     return content
 
 
-print 'testadasdas'.replace('test', 'day', 1)
+# print 'testadasdas'.replace('test', 'day', 1)
+print read_file(folder + 'day1.txt', True)
