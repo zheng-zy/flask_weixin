@@ -3,9 +3,10 @@
 # Created by zhezhiyong@163.com on 2017/3/22.
 
 from flask import request, abort
-from wechatpy import parse_message, create_reply
+from wechatpy import parse_message
 from wechatpy.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
+from wechatpy.replies import *
 
 from __init__ import logger
 from const import *
@@ -33,11 +34,11 @@ def wechat_response():
 
     try:
         get_resp_func = msg_type_resp[msg.type]
+        if get_resp_func is None:
+            logger.error('%s is a unknown msg type.', msg.type)
         response = get_resp_func(msg, crypto, nonce, timestamp)
-        logger.debug('get_resp_func resp: %s', response)
     except KeyError:
         response = 'success'
-    logger.debug('response: %s', response)
     return response
 
 
@@ -54,5 +55,12 @@ def set_msg_type(msg_type):
 @set_msg_type('text')
 def text_resp(msg, crypto, nonce, timestamp):
     reply = create_reply(msg.content, msg)
+    response = crypto.encrypt_message(reply.render(), nonce, timestamp)
+    return response
+
+
+@set_msg_type('subscribe')
+def subscribe_resp(msg, crypto, nonce, timestamp):
+    reply = create_reply(WELCOME_TEXT + COMMAND_TEXT, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
     return response
