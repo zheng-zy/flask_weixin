@@ -154,10 +154,10 @@ def read_file(file_path, pattern=False):
             num = 0
             while 1:
                 line = txt.readline()
-                if len(line) < 5:
-                    continue
                 if not line:
                     break
+                if len(line) < 5:
+                    continue
                 if not pattern:
                     content += line
                 else:

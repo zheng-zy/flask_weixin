@@ -36,7 +36,7 @@ def show():
     file_list = dir_list(folder)
     urls = []
     if len(file_list) > 0:
-        urls = [texts.url(file_) for file_ in file_list]
+        urls = [str(texts.url(file_)).replace('127.0.0.1:5000', 'abc.guozili.site') for file_ in file_list]
     return render_template('show.html', urls=urls)
 
 
