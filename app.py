@@ -21,7 +21,7 @@ APP_ID = app.config['WECHAT_APPID']
 TOKEN = app.config['WECHAT_TOKEN']
 ENCODING_AES_KEY = 'QCgz5h5kaixpc7Kb5gYyx7JXwYFRQlf439Bp9us4zZW'
 
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.DEBUG)
 logger = logging.getLogger()
 GET = 'GET'
 POST = 'POST'
