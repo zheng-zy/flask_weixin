@@ -2,7 +2,7 @@
 # coding=utf-8
 # Created by zhezhiyong@163.com on 2017/3/20.
 
-from flask import request, abort
+from flask import request, abort, render_template
 from wechatpy import parse_message, create_reply
 from wechatpy.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
@@ -16,6 +16,11 @@ TOKEN = app.config['WECHAT_TOKEN']
 ENCODING_AES_KEY = app.secret_key
 
 
+@app.route('/')
+def index():
+    return render_template('index.html', name='mike')
+
+
 @app.route('/wechat', methods=[GET, POST])
 @check_signature
 def wechat():
@@ -23,8 +28,6 @@ def wechat():
     nonce = request.args.get('nonce', '')
     encrypt_type = request.args.get('encrypt_type', '')
     msg_signature = request.args.get('msg_signature', '')
-    logger.debug('timestamp: {%s}', timestamp)
-    logger.debug('nonce: {%s}', nonce)
     logger.debug('encrypt_type: {%s}', encrypt_type)
     logger.debug('msg_signature: {%s}', msg_signature)
 
