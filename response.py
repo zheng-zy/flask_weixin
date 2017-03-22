@@ -33,6 +33,7 @@ def wechat_response():
     msg = parse_message(msg)
 
     try:
+        logger.debug('current msg type is: {%s}', msg.type)
         get_resp_func = msg_type_resp[msg.type]
         if get_resp_func is None:
             logger.error('%s is a unknown msg type.', msg.type)

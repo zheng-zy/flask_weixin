@@ -4,6 +4,7 @@
 
 from flask import render_template
 
+from __init__ import logger
 from const import *
 from response import wechat_response
 from utils import check_signature
@@ -21,7 +22,10 @@ def index():
 @app.route('/wechat', methods=[GET, POST])
 @check_signature
 def wechat():
-    return wechat_response()
+    resp = wechat_response()
+    logger.info('resp: %s', resp)
+    return resp
+
 
 if __name__ == '__main__':
     app.run('127.0.0.1', 5000)
