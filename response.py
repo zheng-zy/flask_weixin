@@ -76,7 +76,7 @@ def text_resp(msg, crypto, nonce, timestamp):
     command_match = False
     for key_word in commands:
         if re.match(key_word, msg.content):
-            resp_func = commands[key_word]()
+            resp_func = commands[key_word]
             response = resp_func(msg, crypto, nonce, timestamp)
             command_match = True
             break
