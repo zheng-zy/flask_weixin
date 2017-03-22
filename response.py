@@ -2,7 +2,6 @@
 # coding=utf-8
 # Created by zhezhiyong@163.com on 2017/3/22.
 
-import os
 import re
 from datetime import datetime
 
@@ -17,7 +16,7 @@ from __init__ import logger
 from const import *
 
 BASE_DIR = os.path.dirname(__file__)  # 获取当前文件夹的绝对路径
-FOLDER_PATH = os.path.join(BASE_DIR, 'txt')  # 获取当前文件夹内的Test_Data文件
+FOLDER_PATH = folder  # 获取当前文件夹内的Test_Data文件
 
 msg_type_resp = {}  # 存放对应消息类型处理函数
 

@@ -38,3 +38,15 @@ def check_signature(func):
         return func(*args, **kwargs)
 
     return decorated_function
+
+
+def dir_list(root_dir):
+    file_list = []
+    if root_dir is None:
+        raise Exception
+    for parent, dir_names, file_names in os.walk(root_dir):  # 三个参数：
+        # 分别返回1.父目录 2.所有文件夹名字（不含路径） 3.所有文件名字
+        for file_name in file_names:  # 输出文件信息
+            # print "the full name of the file is:" + os.path.join(parent, filename)  # 输出文件路径信息
+            file_list.append(file_name)
+    return file_list
