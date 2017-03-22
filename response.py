@@ -2,7 +2,9 @@
 # coding=utf-8
 # Created by zhezhiyong@163.com on 2017/3/22.
 
+import os
 import re
+from datetime import datetime
 
 from flask import request, abort
 from wechatpy import parse_message
@@ -13,6 +15,9 @@ from wechatpy.replies import *
 
 from __init__ import logger
 from const import *
+
+BASE_DIR = os.path.dirname(__file__)  # 获取当前文件夹的绝对路径
+FOLDER_PATH = os.path.join(BASE_DIR, 'txt')  # 获取当前文件夹内的Test_Data文件
 
 msg_type_resp = {}  # 存放对应消息类型处理函数
 
@@ -67,7 +72,7 @@ def text_resp(msg, crypto, nonce, timestamp):
     response = 'success'
     commands = {
         u'取消': cancel_command,
-        u'^\?|^？': all_command,
+        u'^\?|^？|^help': all_command,
         u'^1|^今日单词': today_word,
         u'^2|^单词练习': word_practise,
         u'^天气|^天氣': get_weather_news,
@@ -108,10 +113,27 @@ def get_weather_news():
 
 
 def today_word(msg, crypto, nonce, timestamp):
-    reply = create_reply(WELCOME_TEXT + COMMAND_TEXT, msg)
+    end_day = str(datetime.now())[:10]
+    a = datetime.strptime(START_DAY, '%Y-%M-%d')
+    b = datetime.strptime(end_day, '%Y-%M-%d')
+    c = b - a
+    file_path = FOLDER_PATH + os.sep + 'day' + str(c.days) + '.txt'
+    content = ''
+    with open(file_path, 'r') as txt:
+        while 1:
+            line = txt.readline()
+            if not line:
+                break
+            content += line
+    reply = create_reply(content, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
     return response
 
 
 def word_practise():
     pass
+
+
+def read_txt(file_path):
+    with open(file_path, 'r') as txt:
+        text = [line for line in txt]
