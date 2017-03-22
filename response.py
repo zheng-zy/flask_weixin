@@ -30,12 +30,12 @@ def wechat_response():
     except (InvalidSignatureException, InvalidAppIdException):
         abort(403)
     msg = parse_message(msg)
-    response = 'success'
+
     try:
         get_resp_func = msg_type_resp[msg.type]
         response = get_resp_func(msg, crypto, nonce, timestamp)
     except KeyError:
-        pass
+        response = 'success'
     return response
 
 
