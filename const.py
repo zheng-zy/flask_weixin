@@ -2,7 +2,7 @@
 # coding=utf-8
 # Created by zhezhiyong@163.com on 2017/3/22.
 
-from . import app
+from __init__ import app
 
 GET = 'GET'
 POST = 'POST'

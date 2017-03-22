@@ -7,8 +7,8 @@ from flask import request, abort
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.utils import check_signature as cs
 
+from __init__ import logger
 from const import *
-from . import logger
 
 
 def check_signature(func):

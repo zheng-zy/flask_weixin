@@ -7,9 +7,9 @@ from wechatpy import parse_message, create_reply
 from wechatpy.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 
+from __init__ import logger
 from const import *
 from utils import check_signature
-from . import logger
 
 APP_ID = app.config['WECHAT_APPID']
 TOKEN = app.config['WECHAT_TOKEN']
