@@ -34,10 +34,11 @@ def wechat_response():
     msg = parse_message(msg)
 
     try:
-        logger.debug('current msg type is: {%s}, event is: {%s}', msg.type, msg.event)
         if isinstance(msg, BaseEvent):
+            logger.debug('current msg type is: {%s}, event is: {%s}', msg.type, msg.event)
             get_resp_func = msg_type_resp[msg.type + '_' + msg.event]
         elif isinstance(msg, BaseMessage):
+            logger.debug('current msg type is: {%s}', msg.type)
             get_resp_func = msg_type_resp[msg.type]
         else:
             get_resp_func = None
