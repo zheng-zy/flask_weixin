@@ -147,6 +147,7 @@ def day_txt(msg, crypto, nonce, timestamp):
 
 
 def read_file(file_path, pattern=False):
+    logger.debug('file_path: %s', file_path)
     content = ''
     if os.path.exists(file_path):
         with open(file_path, 'r') as txt:
