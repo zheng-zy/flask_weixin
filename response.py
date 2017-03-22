@@ -132,7 +132,7 @@ def word_practise():
 def day_test(msg, crypto, nonce, timestamp):
     file_path = FOLDER_PATH + os.sep + msg.content + '.txt'
     file_path = file_path.replace('test', 'day', 1)
-    content = read_file(file_path)
+    content = read_file(file_path, True)
     reply = create_reply(content, msg)
     response = crypto.encrypt_message(reply.render(), nonce, timestamp)
     return response
