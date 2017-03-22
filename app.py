@@ -3,9 +3,11 @@
 # Created by zhezhiyong@163.com on 2017/3/20.
 
 from flask import Flask, request, session
-from flask_wechatpy import Wechat, wechat_required, oauth
+from flask_wechatpy import Wechat, wechat_required
+from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.replies import TextReply
 from wechatpy.replies import create_reply
+from wechatpy.utils import check_signature
 
 app = Flask(__name__)
 app.config['WECHAT_APPID'] = 'wx3b602e650c2c8dda'
@@ -19,9 +21,17 @@ wechat = Wechat(app)
 
 
 @app.route('/')
-@oauth(scope='snsapi_userinfo')
+# @oauth(scope='snsapi_userinfo')
 def index():
-    return "hello"
+    echostr = request.args.get('echostr', '')
+    signature = request.args.get('signature', '')
+    timestamp = request.args.get('timestamp', '')
+    nonce = request.args.get('nonce', '')
+    try:
+        check_signature(app.config['WECHAT_TOKEN'], signature, timestamp, nonce)
+    except InvalidSignatureException:
+        return
+    return echostr
 
 
 @app.route('/clear')
