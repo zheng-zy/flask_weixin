@@ -6,7 +6,7 @@ import logging
 
 from flask import Flask
 
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.DEBUG)
 logger = logging.getLogger()
 
 app = Flask(__name__)
