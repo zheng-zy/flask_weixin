@@ -75,6 +75,7 @@ def text_resp(msg, crypto, nonce, timestamp):
         u'^1|^今日单词': today_word,
         u'^2|^单词练习': word_practise,
         u'^day': day_txt,
+        u'^test': day_test,
         u'^天气|^天氣': get_weather_news,
 
     }
@@ -128,6 +129,15 @@ def word_practise():
     pass
 
 
+def day_test(msg, crypto, nonce, timestamp):
+    file_path = FOLDER_PATH + os.sep + msg.content + '.txt'
+    file_path = file_path.replace('test', 'day', 1)
+    content = read_file(file_path)
+    reply = create_reply(content, msg)
+    response = crypto.encrypt_message(reply.render(), nonce, timestamp)
+    return response
+
+
 def day_txt(msg, crypto, nonce, timestamp):
     file_path = FOLDER_PATH + os.sep + msg.content + '.txt'
     content = read_file(file_path)
@@ -136,15 +146,24 @@ def day_txt(msg, crypto, nonce, timestamp):
     return response
 
 
-def read_file(file_path):
+def read_file(file_path, pattern=False):
     content = ''
     if os.path.exists(file_path):
         with open(file_path, 'r') as txt:
+            num = 0
             while 1:
                 line = txt.readline()
                 if not line:
                     break
-                content += line
+                if not pattern:
+                    content += line
+                else:
+                    if num / 2 == 0:
+                        content += line
+                num += 1
     else:
         content = ERROR_FILE
     return content
+
+
+print 'testadasdas'.replace('test', 'day', 1)
