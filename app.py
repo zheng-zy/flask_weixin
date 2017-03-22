@@ -30,7 +30,7 @@ TEXT = 'text'
 
 @app.route('/wechat', methods=[GET, POST])
 def wechat():
-    echo_str = request.args.get('echo_str', '')
+    echo_str = request.args.get('echostr', '')
     signature = request.args.get('signature', '')
     timestamp = request.args.get('timestamp', '')
     nonce = request.args.get('nonce', '')
