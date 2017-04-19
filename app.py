@@ -59,6 +59,7 @@ def get_followers():
     client = WeChatClient(appid, secret)
     followers = client.user.get_followers()
     app.logger.info(followers)
+    return followers
 
 if __name__ == '__main__':
     app.run('127.0.0.1', 5000)
