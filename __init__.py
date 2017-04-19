@@ -18,7 +18,7 @@ app.config['WECHAT_APPID'] = 'wx2dcd9b41a9c7a22e'
 app.config['WECHAT_SECRET'] = '1ea92c18d7fe0baf783b44123328b1a9'
 app.config['WECHAT_TOKEN'] = 'token'
 app.config['DEBUG'] = True
-app.secret_key = '1ea92c18d7fe0baf783b44123328b1a9'  # AppSecret
+app.secret_key = ''  # AppSecret
 
 # 记录日志
 handler = RotatingFileHandler('./app.log', maxBytes=10000, backupCount=1)
