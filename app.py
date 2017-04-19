@@ -56,7 +56,7 @@ def we_chat():
 
 @app.route('/get_followers', methods=[GET, POST])
 def get_followers():
-    client = WeChatClient('appid', 'secret')
+    client = WeChatClient(appid, secret)
     followers = client.user.get_followers()
     app.logger.info(followers)
 

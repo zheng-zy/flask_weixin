@@ -15,6 +15,10 @@ TEXT = 'text'
 APP_ID = app.config['WECHAT_APPID']
 TOKEN = app.config['WECHAT_TOKEN']
 
+appid = 'wx2dcd9b41a9c7a22e'
+secret = '1ea92c18d7fe0baf783b44123328b1a9'
+
+
 # 文件上传配置
 folder = os.path.dirname(os.path.abspath(__file__)) + os.sep + 'data' + os.sep
 app.config['UPLOADED_TEXT_DEST'] = folder
