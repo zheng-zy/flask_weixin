@@ -8,11 +8,17 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask
 
 app = Flask(__name__)
-app.config['WECHAT_APPID'] = 'wx3b602e650c2c8dda'
-app.config['WECHAT_SECRET'] = '12e75aabd90ab2e034941f61f0c8d0aa'
+# app.config['WECHAT_APPID'] = 'wx3b602e650c2c8dda'
+# app.config['WECHAT_SECRET'] = '12e75aabd90ab2e034941f61f0c8d0aa'
+# app.config['WECHAT_TOKEN'] = 'token'
+# app.config['DEBUG'] = True
+# app.secret_key = '9c66bc144457b9ba8c63f17f4ad93356'  # AppSecret
+
+app.config['WECHAT_APPID'] = 'wx2dcd9b41a9c7a22e'
+app.config['WECHAT_SECRET'] = '1ea92c18d7fe0baf783b44123328b1a9'
 app.config['WECHAT_TOKEN'] = 'token'
 app.config['DEBUG'] = True
-app.secret_key = '9c66bc144457b9ba8c63f17f4ad93356'  # AppSecret
+app.secret_key = '1ea92c18d7fe0baf783b44123328b1a9'  # AppSecret
 
 # 记录日志
 handler = RotatingFileHandler('./app.log', maxBytes=10000, backupCount=1)
