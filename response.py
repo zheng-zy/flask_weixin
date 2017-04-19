@@ -5,11 +5,9 @@
 import re
 from datetime import datetime
 
-from flask import request, abort
+from flask import request
 from wechatpy import parse_message
-from wechatpy.crypto import WeChatCrypto
 from wechatpy.events import BaseEvent
-from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 from wechatpy.replies import *
 
 from const import *
@@ -30,15 +28,14 @@ def wechat_response():
 
     app.logger.debug('raw message: {%s}', request.data)
     msg = parse_message(request.data)
-    app.logger.info('parse: {%s}', msg)
-    crypto = WeChatCrypto(TOKEN, ENCODING_AES_KEY, APP_ID)
-    msg = None
-    try:
-        msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
-        app.logger.debug('decrypted message: {%s}', msg)
-    except (InvalidSignatureException, InvalidAppIdException):
-        abort(403)
-    msg = parse_message(msg)
+    # crypto = WeChatCrypto(TOKEN, ENCODING_AES_KEY, APP_ID)
+    # msg = None
+    # try:
+    #     msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
+    #     app.logger.debug('decrypted message: {%s}', msg)
+    # except (InvalidSignatureException, InvalidAppIdException):
+    #     abort(403)
+    # msg = parse_message(msg)
 
     try:
         if isinstance(msg, BaseEvent):
