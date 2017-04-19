@@ -29,6 +29,8 @@ def wechat_response():
     app.logger.debug('msg_signature: {%s}', msg_signature)
 
     app.logger.debug('raw message: {%s}', request.data)
+    msg = parse_message(request.data)
+    app.logger.info('parse: {%s}', msg)
     crypto = WeChatCrypto(TOKEN, ENCODING_AES_KEY, APP_ID)
     msg = None
     try:
