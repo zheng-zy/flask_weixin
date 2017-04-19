@@ -36,7 +36,7 @@ def wechat_response():
     # except (InvalidSignatureException, InvalidAppIdException):
     #     abort(403)
     # msg = parse_message(msg)
-
+    crypto = None
     try:
         if isinstance(msg, BaseEvent):
             app.logger.debug('current msg type is: {%s}, event is: {%s}', msg.type, msg.event)
@@ -86,7 +86,8 @@ def text_resp(msg, crypto, nonce, timestamp):
             break
     if not command_match:
         reply = create_reply(msg.content, msg)
-        response = crypto.encrypt_message(reply.render(), nonce, timestamp)
+        # response = crypto.encrypt_message(reply.render(), nonce, timestamp)
+        response = reply.render()
     return response
 
 
