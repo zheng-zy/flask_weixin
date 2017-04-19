@@ -12,7 +12,6 @@ from wechatpy.events import BaseEvent
 from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 from wechatpy.replies import *
 
-from __init__ import logger
 from const import *
 
 BASE_DIR = os.path.dirname(__file__)  # 获取当前文件夹的绝对路径
@@ -26,30 +25,30 @@ def wechat_response():
     nonce = request.args.get('nonce', '')
     encrypt_type = request.args.get('encrypt_type', '')
     msg_signature = request.args.get('msg_signature', '')
-    logger.debug('encrypt_type: {%s}', encrypt_type)
-    logger.debug('msg_signature: {%s}', msg_signature)
+    app.logger.debug('encrypt_type: {%s}', encrypt_type)
+    app.logger.debug('msg_signature: {%s}', msg_signature)
 
-    logger.debug('raw message: {%s}', request.data)
+    app.logger.debug('raw message: {%s}', request.data)
     crypto = WeChatCrypto(TOKEN, ENCODING_AES_KEY, APP_ID)
     msg = None
     try:
         msg = crypto.decrypt_message(request.data, msg_signature, timestamp, nonce)
-        logger.debug('decrypted message: {%s}', msg)
+        app.logger.debug('decrypted message: {%s}', msg)
     except (InvalidSignatureException, InvalidAppIdException):
         abort(403)
     msg = parse_message(msg)
 
     try:
         if isinstance(msg, BaseEvent):
-            logger.debug('current msg type is: {%s}, event is: {%s}', msg.type, msg.event)
+            app.logger.debug('current msg type is: {%s}, event is: {%s}', msg.type, msg.event)
             get_resp_func = msg_type_resp[msg.type + '_' + msg.event]
         elif isinstance(msg, BaseMessage):
-            logger.debug('current msg type is: {%s}', msg.type)
+            app.logger.debug('current msg type is: {%s}', msg.type)
             get_resp_func = msg_type_resp[msg.type]
         else:
             get_resp_func = None
         if get_resp_func is None:
-            logger.error('msg type is: {%s}, event is: {%s}', msg.type, msg.event)
+            app.logger.error('msg type is: {%s}, event is: {%s}', msg.type, msg.event)
         response = get_resp_func(msg, crypto, nonce, timestamp)
     except KeyError:
         response = 'success'
@@ -147,7 +146,7 @@ def day_txt(msg, crypto, nonce, timestamp):
 
 
 def read_file(file_path, pattern=False):
-    logger.debug('file_path: %s', file_path)
+    app.logger.debug('file_path: %s', file_path)
     content = ''
     if os.path.exists(file_path):
         with open(file_path, 'r') as txt:
@@ -170,4 +169,4 @@ def read_file(file_path, pattern=False):
 
 
 # print 'testadasdas'.replace('test', 'day', 1)
-print read_file(folder + 'day1.txt', True)
+# print read_file(folder + 'day1.txt', True)

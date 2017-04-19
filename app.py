@@ -5,7 +5,6 @@
 from flask import request, redirect, url_for, render_template
 from flask_uploads import UploadSet, configure_uploads
 
-from __init__ import logger
 from const import *
 from response import wechat_response
 from utils import check_signature, dir_list
@@ -42,14 +41,15 @@ def show():
 
 @app.route('/')
 def index():
+    app.logger.info("hello")
     return 'hello'
 
 
-@app.route('/wechat', methods=[GET, POST])
+@app.route('/we_chat', methods=[GET, POST])
 @check_signature
-def wechat():
+def we_chat():
     resp = wechat_response()
-    logger.info('resp: %s', resp)
+    app.logger.info('resp: %s', resp)
     return resp
 
 
