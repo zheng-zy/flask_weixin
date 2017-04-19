@@ -4,6 +4,7 @@
 
 from flask import request, redirect, url_for, render_template
 from flask_uploads import UploadSet, configure_uploads
+from wechatpy import WeChatClient
 
 from const import *
 from response import wechat_response
@@ -52,6 +53,12 @@ def we_chat():
     app.logger.info('resp: %s', resp)
     return resp
 
+
+@app.route('/get_followers', methods=[GET, POST])
+def get_followers():
+    client = WeChatClient('appid', 'secret')
+    followers = client.user.get_followers()
+    app.logger.info(followers)
 
 if __name__ == '__main__':
     app.run('127.0.0.1', 5000)

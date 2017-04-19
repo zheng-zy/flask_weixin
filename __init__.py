@@ -6,6 +6,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask
+from wechatpy.client import WeChatClient
 
 app = Flask(__name__)
 # app.config['WECHAT_APPID'] = 'wx3b602e650c2c8dda'
@@ -19,6 +20,9 @@ app.config['WECHAT_SECRET'] = '1ea92c18d7fe0baf783b44123328b1a9'
 app.config['WECHAT_TOKEN'] = 'token'
 app.config['DEBUG'] = True
 app.secret_key = ''  # AppSecret
+
+client = WeChatClient(app.config['WECHAT_APPID'], app.config['WECHAT_SECRET'])
+client.fetch_access_token()
 
 # 记录日志
 handler = RotatingFileHandler('./app.log', maxBytes=10000, backupCount=1)
