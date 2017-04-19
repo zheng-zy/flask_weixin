@@ -28,6 +28,7 @@ def check_signature(func):
 
         try:
             app.logger.debug('token: %s', TOKEN)
+            print TOKEN, signature, timestamp, nonce
             cs(TOKEN, signature, timestamp, nonce)
         except InvalidSignatureException:
             app.logger.error('check_signature error')
